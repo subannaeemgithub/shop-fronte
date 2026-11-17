@@ -5,78 +5,87 @@ import {
   FiShoppingBag,
   FiPackage,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
-/* ------------------------------------------------------------------
-   Add your own images here (import them or use a URL / public path).
-   Leave a value as "" and the image is simply skipped.
-------------------------------------------------------------------- */
 const IMAGES = {
-  main: "", // girl with basket (transparent PNG works best)
-  summer: "", // bag of fruit & vegetables
-  dealBg: "", // leaf texture for the dark card (optional)
+  main: "",
+  summer: "",
+  dealBg: "",
 };
 
-const features = [
+export const features = [
   { icon: FiTruck, title: "Free Shipping", text: "Free shipping on all your order" },
   { icon: FiHeadphones, title: "Customer Support 24/7", text: "Instant access to Support" },
   { icon: FiShoppingBag, title: "100% Secure Payment", text: "We ensure your money is save" },
   { icon: FiPackage, title: "Money-Back Guarantee", text: "30 Days Money-Back Guarantee" },
 ];
 
-export default function Topoffers() {
+export default function Topoffers({ banner }) {
+  const navigate = useNavigate();
+
+  const goproduct = () => {
+    navigate('/30product');
+  };
+
   return (
     <section className="mx-auto w-full max-w-[1320px] px-4 py-5 font-sans sm:px-6">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3 lg:gap-5">
-        {/* ===================== Main banner ===================== */}
+        {/* ===================== Main Green Banner ===================== */}
         <div className="group relative min-h-[260px] overflow-hidden rounded-lg bg-gradient-to-br from-[#006e1c] via-[#009a2b] to-[#00c24a] sm:min-h-[300px] lg:col-span-2 lg:min-h-[336px]">
           {/* soft glow circles */}
           <span className="pointer-events-none absolute -left-16 -top-16 h-48 w-48 rounded-full bg-white/10 blur-2xl transition-transform duration-700 group-hover:scale-125" />
           <span className="pointer-events-none absolute -bottom-20 right-1/4 h-56 w-56 rounded-full bg-white/10 blur-3xl transition-transform duration-700 group-hover:scale-125" />
 
           {/* Image */}
-          {IMAGES.main && (
+          {banner?.image && (
             <img
-              src={IMAGES.main}
-              alt="Fresh organic food"
-              className="absolute bottom-0 right-0 h-[75%] w-auto max-w-[55%] object-contain object-bottom transition-transform duration-700 ease-out group-hover:scale-105 sm:h-[95%] sm:max-w-[60%]"
+              src={banner.image}
+              alt={banner.title || "Fresh organic food"}
+              className="pointer-events-none absolute bottom-0 right-0 h-[75%] sm:h-[85%] lg:h-[95%] w-auto max-w-[45%] sm:max-w-[48%] lg:max-w-[48%] object-contain object-bottom transition-transform duration-700 ease-out group-hover:scale-105"
             />
           )}
 
           {/* Content */}
-          <div className="relative z-10 flex h-full min-h-[260px] max-w-[65%] flex-col justify-center gap-3 p-5 sm:min-h-[300px] sm:max-w-[55%] sm:gap-4 sm:p-8 lg:min-h-[336px] lg:p-10">
-            <h2 className="text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-4xl">
-              Fresh &amp; Healthy
-              <br />
-              Organic Food
+          <div className="relative z-10 flex h-full min-h-[260px] w-full max-w-[55%] sm:max-w-[52%] lg:max-w-[50%] flex-col justify-center gap-2.5 sm:gap-3.5 p-4 sm:p-7 lg:p-10">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight text-white line-clamp-2">
+              {banner?.subtitle || banner?.title || "Fresh & Healthy Organic Food"}
             </h2>
 
-            <div className="flex items-stretch gap-3">
-              <span className="w-px bg-white/40" />
-              <div>
-                <p className="flex flex-wrap items-center gap-2 text-sm font-medium text-white">
+            <div className="flex items-stretch gap-2.5 sm:gap-3">
+              <span className="w-px bg-white/40 shrink-0" />
+              <div className="space-y-1">
+                <p className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-white">
                   Sale up to
-                  <span className="rounded-md bg-[#FF8A00] px-2 py-0.5 text-sm font-semibold uppercase text-white transition-transform duration-300 group-hover:scale-110">
+                  <span className="rounded-md bg-[#FF8A00] px-2 py-0.5 text-xs sm:text-sm font-semibold uppercase text-white transition-transform duration-300 group-hover:scale-110">
                     30% OFF
                   </span>
                 </p>
-                <p className="mt-1 text-xs text-white/80">
+                <p className="text-[11px] sm:text-xs text-white/80">
                   Free shipping on all your order.
                 </p>
+                {banner?.description && (
+                  <p className="text-xs sm:text-sm font-medium text-white/90 max-w-[220px] sm:max-w-[280px] lg:max-w-[320px] break-words line-clamp-3">
+                    {banner.description}
+                  </p>
+                )}
               </div>
             </div>
 
             {/* Button */}
-            <button className="group/btn relative flex w-fit items-center gap-2 overflow-hidden rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-[#00B207] shadow-md transition-all duration-300 hover:-translate-y-1 hover:text-white hover:shadow-xl active:scale-95">
+            <button
+              onClick={goproduct}
+              className="group/btn relative mt-1 flex w-fit items-center gap-2 overflow-hidden rounded-full bg-white px-5 sm:px-6 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-[#00B207] shadow-md transition-all duration-300 hover:-translate-y-1 hover:text-white hover:shadow-xl active:scale-95"
+            >
               <span className="absolute inset-0 origin-left scale-x-0 bg-[#00B207] transition-transform duration-500 group-hover/btn:scale-x-100" />
               <span className="relative">Shop now</span>
-              <FiArrowRight className="relative h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1.5" />
+              <FiArrowRight className="relative h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-300 group-hover/btn:translate-x-1.5" />
             </button>
           </div>
         </div>
 
-        {/* ===================== Side banners ===================== */}
+        {/* ===================== Side Banners ===================== */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 lg:gap-5">
-          {/* ---------- Summer sale ---------- */}
+          {/* Summer sale */}
           <div className="group relative min-h-[170px] overflow-hidden rounded-lg bg-[#f3f3f3] transition-shadow duration-300 hover:shadow-xl sm:min-h-[180px] lg:min-h-0">
             {IMAGES.summer && (
               <img
@@ -105,7 +114,7 @@ export default function Topoffers() {
             </div>
           </div>
 
-          {/* ---------- Best deal ---------- */}
+          {/* Best deal */}
           <div className="group relative flex min-h-[170px] items-center justify-center overflow-hidden rounded-lg bg-[#0d3b12] transition-shadow duration-300 hover:shadow-xl sm:min-h-[180px] lg:min-h-0">
             {IMAGES.dealBg && (
               <img

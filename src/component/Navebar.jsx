@@ -1,6 +1,6 @@
-import {FiMapPin,FiSearch,FiMenu,FiX, FiHeart,FiShoppingBag, FiPhoneCall, FiChevronDown,} from "react-icons/fi";
+import { FiSearch, FiMenu, FiX, FiHeart, FiShoppingBag, FiPhoneCall, FiChevronDown } from "react-icons/fi";
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { FaSeedling } from "react-icons/fa";
 
 const menuItems = [
@@ -14,53 +14,28 @@ const menuItems = [
 
 export function Navebar() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const gophome = () => {
+    navigate('/');
+  };
 
   return (
     <header className="w-full bg-white font-sans">
-      {/* ===== Top bar ===== */}
-      <div className="border-b border-gray-200">
-        <div className="mx-auto flex max-w-[1320px] items-center justify-between gap-4 px-4 py-1 text-[13px] text-gray-500 sm:px-6">
-          <div className="flex min-w-0 items-center gap-2">
-            <FiMapPin className="h-5 w-5 shrink-0" />
-            <span className="truncate">
-              Store Location: Lincoln- 344, Illinois, Chicago, USA
-            </span>
-          </div>
-
-          <div className="flex shrink-0 items-center gap-4">
-            <div className="group flex cursor-pointer items-center gap-1 transition-colors duration-300 hover:text-[#00B207]">
-              Eng
-              <FiChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
-            </div>
-            <div className="group flex cursor-pointer items-center gap-1 transition-colors duration-300 hover:text-[#00B207]">
-              USD
-              <FiChevronDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-180" />
-            </div>
-            <span className="hidden h-5 w-px bg-gray-200 sm:block" />
-            <div className="hidden items-center gap-1 sm:flex">
-              <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
-                Sign In
-              </span>
-              <span>/</span>
-              <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
-                Sign Up
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ===== Middle bar ===== */}
-      <div className="mx-auto flex max-w-[1320px] flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-2 sm:px-6">
+      {/* ===== Logo Line (Middle bar) ===== */}
+      <div className="mx-auto flex max-w-[1320px] flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-3 sm:px-6">
         {/* Logo */}
         <div className="flex cursor-pointer items-center gap-2 transition-transform duration-300 hover:scale-105">
           <FaSeedling className="h-9 w-9 text-[#00B207]" />
-          <span className="text-[32px] font-medium leading-none text-[#002603]">
+          <span
+            onClick={gophome}
+            className="text-[32px] font-medium leading-none text-[#002603]"
+          >
             Ecobazar
           </span>
         </div>
 
-        {/* Search (desktop: centered, mobile: full width on its own row) */}
+        {/* Search */}
         <div className="order-last flex w-full overflow-hidden rounded-md border border-gray-200 bg-white transition-all duration-300 focus-within:border-[#00B207] focus-within:shadow-[0_0_0_3px_rgba(0,178,7,0.15)] md:order-none md:w-[451px]">
           <div className="flex flex-1 items-center gap-2 px-4 text-gray-500">
             <FiSearch className="h-5 w-5 shrink-0" />
@@ -76,13 +51,13 @@ export function Navebar() {
           </button>
         </div>
 
-        {/* Wishlist + Cart */}
-        <div className="flex items-center gap-4 sm:gap-5">
+        {/* Right side: Wishlist + Cart + Sign In / Sign Up */}
+        <div className="flex items-center gap-3 sm:gap-4">
           <button className="text-gray-800 transition-all duration-300 hover:scale-110 hover:text-[#00B207] active:scale-95">
             <FiHeart className="h-7 w-7" />
           </button>
 
-          <span className="hidden h-8 w-px bg-gray-200 sm:block" />
+          <span className="hidden h-7 w-px bg-gray-200 sm:block" />
 
           <button className="group flex items-center gap-3 text-left">
             <div className="relative text-gray-800 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:text-[#00B207] group-active:scale-95">
@@ -98,6 +73,19 @@ export function Navebar() {
               </span>
             </div>
           </button>
+
+          <span className="hidden h-7 w-px bg-gray-200 sm:block" />
+
+          {/* Sign In / Sign Up shifted to the very right end of the logo line */}
+          <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
+            <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
+              Sign In
+            </span>
+            <span className="text-gray-400">/</span>
+            <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
+              Sign Up
+            </span>
+          </div>
         </div>
       </div>
 
@@ -163,15 +151,6 @@ export function Navebar() {
                 {item.dropdown && <FiChevronDown className="h-4 w-4" />}
               </li>
             ))}
-            <li className="flex items-center gap-1 px-3 py-3 text-sm text-gray-400 sm:hidden">
-              <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
-                Sign In
-              </span>
-              <span>/</span>
-              <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
-                Sign Up
-              </span>
-            </li>
           </ul>
         </div>
       </nav>
