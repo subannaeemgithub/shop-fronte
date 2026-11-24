@@ -1,8 +1,10 @@
 import { FiArrowRight, FiShoppingBag } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 export default function Vagesfront({ products = [] }) {
   const navegate = useNavigate();
+  const { addToCart } = useCart();
 
   const goProduct = () => {
     navegate("/30product");
@@ -56,7 +58,7 @@ export default function Vagesfront({ products = [] }) {
                   </p>
                 </div>
 
-                <button className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-800 transition-colors duration-300 hover:bg-[#00B207] hover:text-white">
+                <button onClick={() => addToCart(p)} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-800 transition-colors duration-300 hover:bg-[#00B207] hover:text-white">
                   <FiShoppingBag className="h-4 w-4" />
                 </button>
               </div>

@@ -2,6 +2,7 @@ import { FiSearch, FiMenu, FiX, FiHeart, FiShoppingBag, FiPhoneCall, FiChevronDo
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSeedling } from "react-icons/fa";
+import { useCart } from "../context/CartContext";
 
 const menuItems = [
   { label: "Home", dropdown: true },
@@ -13,6 +14,7 @@ const menuItems = [
 ];
 
 export function Navebar() {
+  const { totalCount, totalAmount, openCart } = useCart();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -59,17 +61,21 @@ export function Navebar() {
 
           <span className="hidden h-7 w-px bg-gray-200 sm:block" />
 
-          <button className="group flex items-center gap-3 text-left">
+          <button
+            onClick={openCart}
+            type="button"
+            className="group flex cursor-pointer items-center gap-3 text-left"
+          >
             <div className="relative text-gray-800 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:text-[#00B207] group-active:scale-95">
               <FiShoppingBag className="h-7 w-7" />
               <span className="absolute -right-2 -top-2 flex h-4 w-4 items-center justify-center rounded-full bg-[#2C742F] text-[10px] font-medium text-white">
-                2
+                {totalCount}
               </span>
             </div>
             <div className="flex flex-col leading-tight">
               <span className="text-[11px] text-gray-500">Shopping cart:</span>
               <span className="text-sm font-medium text-gray-900 transition-colors duration-300 group-hover:text-[#00B207]">
-                $57.00
+                ${totalAmount.toFixed(2)}
               </span>
             </div>
           </button>

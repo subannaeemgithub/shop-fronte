@@ -20,11 +20,17 @@ export const features = [
   { icon: FiPackage, title: "Money-Back Guarantee", text: "30 Days Money-Back Guarantee" },
 ];
 
-export default function Topoffers({ banner }) {
+export default function Topoffers({ banner, frutban, groceryban }) {
   const navigate = useNavigate();
 
   const goproduct = () => {
     navigate('/30product');
+  };
+  const gofrutprod = () => {
+    navigate('/frutproduct');
+  };
+  const gogroceryprod = () => {
+    navigate('/groceryprod');
   };
 
   return (
@@ -87,9 +93,9 @@ export default function Topoffers({ banner }) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 lg:gap-5">
           {/* Summer sale */}
           <div className="group relative min-h-[170px] overflow-hidden rounded-lg bg-[#f3f3f3] transition-shadow duration-300 hover:shadow-xl sm:min-h-[180px] lg:min-h-0">
-            {IMAGES.summer && (
+            {frutban?.image && (
               <img
-                src={IMAGES.summer}
+                src={frutban.image}
                 alt="Summer sale"
                 className="absolute bottom-0 right-0 h-full w-auto max-w-[60%] object-contain object-right-bottom transition-transform duration-700 ease-out group-hover:scale-110 group-hover:-rotate-2"
               />
@@ -100,12 +106,12 @@ export default function Topoffers({ banner }) {
                 Summer Sale
               </span>
               <h3 className="text-2xl font-semibold text-gray-900 sm:text-3xl">
-                75% OFF
+                {frutban?.offerpersent || "75%"}
               </h3>
-              <p className="text-xs text-gray-500">Only Fruit &amp; Vegetable</p>
+              <p className="text-xs text-gray-500">{frutban?.name || ""}</p>
 
               <button className="group/link mt-1.5 flex w-fit items-center gap-2 text-sm font-semibold text-[#00B207] transition-colors duration-300 hover:text-[#2C742F]">
-                <span className="relative">
+                <span className="relative" onClick={gofrutprod}>
                   Shop Now
                   <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-current transition-all duration-300 group-hover/link:w-full" />
                 </span>
@@ -116,13 +122,19 @@ export default function Topoffers({ banner }) {
 
           {/* Best deal */}
           <div className="group relative flex min-h-[170px] items-center justify-center overflow-hidden rounded-lg bg-[#0d3b12] transition-shadow duration-300 hover:shadow-xl sm:min-h-[180px] lg:min-h-0">
-            {IMAGES.dealBg && (
+            {groceryban?.image ? (
+              <img
+                src={groceryban.image}
+                alt="Best deal"
+                className="absolute inset-0 h-full w-full object-cover opacity-40 transition-transform duration-700 ease-out group-hover:scale-110"
+              />
+            ) : IMAGES.dealBg ? (
               <img
                 src={IMAGES.dealBg}
                 alt=""
                 className="absolute inset-0 h-full w-full object-cover opacity-40 transition-transform duration-700 ease-out group-hover:scale-110"
               />
-            )}
+            ) : null}
             <span className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#0d3b12]/60 to-black/40" />
 
             <div className="relative z-10 flex flex-col items-center gap-1.5 p-5 text-center">
@@ -130,12 +142,19 @@ export default function Topoffers({ banner }) {
                 Best Deal
               </span>
               <h3 className="text-xl font-semibold leading-tight text-white sm:text-2xl">
-                Special Products
-                <br />
-                Deal of the Month
+                {groceryban?.offername || (
+                  <>
+                    Special Products
+                    <br />
+                    Deal of the Month
+                  </>
+                )}
               </h3>
 
-              <button className="group/link mt-1.5 flex items-center gap-2 text-sm font-semibold text-[#00B207] transition-colors duration-300 hover:text-white">
+              <button
+                onClick={gogroceryprod}
+                className="group/link mt-1.5 flex items-center gap-2 text-sm font-semibold text-[#00B207] transition-colors duration-300 hover:text-white"
+              >
                 <span className="relative">
                   Shop Now
                   <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-current transition-all duration-300 group-hover/link:w-full" />
