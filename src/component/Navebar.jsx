@@ -1,8 +1,9 @@
-import { FiSearch, FiMenu, FiX, FiHeart, FiShoppingBag, FiPhoneCall, FiChevronDown } from "react-icons/fi";
+import { FiSearch, FiMenu, FiX, FiHeart, FiShoppingBag, FiPhoneCall, FiChevronDown, FiUser } from "react-icons/fi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaSeedling } from "react-icons/fa";
 import { useCart } from "../context/CartContext";
+import AuthModal from "./AuthModal";
 
 const menuItems = [
   { label: "Home", dropdown: true },
@@ -16,7 +17,23 @@ const menuItems = [
 export function Navebar() {
   const { totalCount, totalAmount, openCart } = useCart();
   const [open, setOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState('signin');
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user_info');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('user_token');
+    localStorage.removeItem('user_info');
+    setUser(null);
+  };
 
   const gophome = () => {
     navigate('/');
@@ -82,18 +99,49 @@ export function Navebar() {
 
           <span className="hidden h-7 w-px bg-gray-200 sm:block" />
 
-          {/* Sign In / Sign Up shifted to the very right end of the logo line */}
-          <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
-            <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
-              Sign In
-            </span>
-            <span className="text-gray-400">/</span>
-            <span className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]">
-              Sign Up
-            </span>
-          </div>
+          {/* Sign In / Sign Up or Logged in User */}
+          {user ? (
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <span className="flex items-center gap-1.5 font-semibold text-[#00B207]">
+                <FiUser className="h-4 w-4" />
+                <span className="max-w-[100px] truncate">{user.name}</span>
+              </span>
+              <span className="text-gray-300">/</span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="cursor-pointer text-xs font-semibold text-gray-500 transition hover:text-red-500"
+              >
+                Sign Out
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1 text-sm font-medium text-gray-700">
+              <span
+                onClick={() => { setAuthMode('signin'); setAuthOpen(true); }}
+                className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]"
+              >
+                Sign In
+              </span>
+              <span className="text-gray-400">/</span>
+              <span
+                onClick={() => { setAuthMode('signup'); setAuthOpen(true); }}
+                className="cursor-pointer transition-colors duration-300 hover:text-[#00B207]"
+              >
+                Sign Up
+              </span>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Auth Modal */}
+      <AuthModal
+        isOpen={authOpen}
+        initialMode={authMode}
+        onClose={() => setAuthOpen(false)}
+        onAuthSuccess={(userData) => setUser(userData)}
+      />
 
       {/* ===== Bottom nav bar ===== */}
       <nav className="bg-[#333333]">

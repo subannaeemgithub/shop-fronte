@@ -7,6 +7,18 @@ const frontApis =  axios.create({
     "Content-Type":"application/json"
    }
 })
+
+frontApis.interceptors.request.use((config) => {
+  const token = localStorage.getItem('user_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// User authentication APIs (Signup & Signin)
+export const signupUser = async (data) => (await frontApis.post('/shop/api/signup', data)).data;
+export const loginUser = async (data) => (await frontApis.post('/shop/api/login', data)).data;
 // fetching api from backend and attached it in front (banner).
 export const showdata = async ()=>(await frontApis.get('/shop/api/getting')).data
 
